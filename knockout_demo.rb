@@ -7,7 +7,7 @@ class KnockoutDemoApp < Sinatra::Application
   set :partial_template_engine, :erb
 
   get '/' do
-      redirect '/jquery-version'
+      redirect '/knockout-version'
   end
 
   private 
