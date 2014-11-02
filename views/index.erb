@@ -1,0 +1,71 @@
+<html>
+<head>
+	<title>Knockout Demo</title>
+	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://rawgit.com/designmodo/Flat-UI/master/dist/css/flat-ui.min.css">
+	<link rel="stylesheet" href="css/styles.css"></head>
+<body>
+
+	<nav class="navbar navbar-inverse navbar-embossed" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">Knockout Demo</a>
+			</div>
+		</div>
+	</nav>
+
+	<div class="container">
+		<div class="row" style="margin-bottom:10px;">
+			<div class="col-md-5 col-md-offset-3">
+				<input type="text" class="form-control" placeholder="Search">
+			</div>
+			<div class="col-xs-2" style="margin-left:-25px;">
+				<button class="btn btn-inverse">Search</button>
+			</div>
+		</div>
+		<div class="well" style="background-color:white;">
+			<table class="table table-bordered">
+				<tr>
+					<th></th>
+					<th style="text-align:center;">Image</th>
+					<th style="text-align:center;">Title</th>
+					<th style="text-align:center;">Asin</th>
+					<th style="text-align:center;">Price</th>
+					<th style="text-align:center;">Prime</th>
+					<th style="text-align:center;">Favorite</th>
+				</tr>
+				<% @results.each_with_index do |result, index| %>
+				<tr>
+					<td style="text-align:center;vertical-align:middle;">
+						<button class="btn btn-link">Details</button>
+					</td>
+					<td style="text-align:center;vertical-align:middle;">
+						<img src="<%= result[:image] %>" height="100"></td>
+					<td style="text-align:center;vertical-align:middle;">
+						<a href="<%= result[:link]%>
+							">
+							<%= result[:title]%></a>
+					</td>
+					<td style="text-align:center;vertical-align:middle;">
+						<%= result[:asin]%></td>
+					<td style="text-align:center;vertical-align:middle;">
+						<%= result[:price]%></td>
+					<td style="text-align:center;vertical-align:middle;">
+						<% if result[:is_prime] %>
+						<span class="fui-check-circle"></span>
+						<% else %>
+						<span class="fui-cross-circle"></span>
+						<%end%></td>
+					<td style="text-align:center;vertical-align:middle;">
+						<% if index % 2 == 0 %>
+						<span class="fui-radio-unchecked" style="cursor:hand;"></span>
+						<% else %>
+						<span class="fui-radio-checked" style="cursor:hand;"></span>
+						<%end%></td>
+				</tr>
+				<%end%></table>
+		</div>
+	</div>
+
+</body>
+</html>
