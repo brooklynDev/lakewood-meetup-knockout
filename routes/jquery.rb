@@ -4,7 +4,7 @@ class KnockoutDemoApp < Sinatra::Application
   end
 
   get '/jquery/search' do
-      @results = AmazonApi.search(params[:q])
+      @results = set_favorites(AmazonApi.search(params["q"]))
       erb :"jquery/results"
   end
 

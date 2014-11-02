@@ -1,7 +1,7 @@
 class KnockoutDemoApp < Sinatra::Application
   get '/api/v1/amazon/search' do
       content_type :json
-      AmazonApi.search(params["q"]).to_json
+      set_favorites(AmazonApi.search(params["q"])).to_json
   end
 
   get '/api/v1/amazon/details' do
@@ -9,19 +9,19 @@ class KnockoutDemoApp < Sinatra::Application
       AmazonApi.get_details(params["asin"]).to_json
   end
 
-  post '/api/v1/db' do
+  post '/api/v1/favorites' do
       content_type :json
       FavoritesDB.add(params[:asin])
       {status: "OK"}.to_json
   end
 
-  delete '/api/v1/db' do
+  delete '/api/v1/favorites/:asin' do
       content_type :json
       FavoritesDB.delete(params[:asin])
       {status: "OK"}.to_json
   end
 
-  get '/api/v1/db/exists' do
+  get '/api/v1/favorites/:asin' do
     content_type :json
     {exists: FavoritesDB.exists?(params[:asin])}
   end

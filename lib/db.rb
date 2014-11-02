@@ -6,12 +6,12 @@ class FavoritesDB
       @@asins.push(asin) unless exists?(asin)
     end
 
-    def remove(asin)
-      @@data.delete("asin")
+    def delete(asin)
+      @@asins.delete(asin)
     end
 
     def exists?(asin)
-      @@data.include?(asin)
+      @@asins.include?(asin)
     end
   end
 end

@@ -9,4 +9,10 @@ class KnockoutDemoApp < Sinatra::Application
   get '/' do
       redirect '/jquery-version'
   end
+
+  private 
+  
+    def set_favorites(results)
+      results.each{|r| r[:is_favorite] = FavoritesDB.exists?(r[:asin])}     
+    end  
 end

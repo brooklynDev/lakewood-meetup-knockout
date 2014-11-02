@@ -22,7 +22,7 @@
 	</td>
 	<td style="text-align:center;vertical-align:middle;">
 		<label class="checkbox" style="margin-left:20px;">
-            <input type="checkbox" id="checkbox2" class="custom-checkbox">
+            <input data-asin="<%= result[:asin] %>" type="checkbox" <%= result[:is_favorite] ? 'checked="checked"' : '' %> id="checkbox2" class="custom-checkbox">
             	<span class="icons">
             		<span class="icon-unchecked"></span>
             		<span class="icon-checked"></span>
