@@ -1,15 +1,12 @@
 require 'json'
+require 'sinatra/partial'
+Dir[File.dirname(__FILE__) + '/routes/*.rb'].each {|file| require file }
 
 class KnockoutDemoApp < Sinatra::Application
-	set :public_folder, 'public'
+  set :public_folder, 'public'
+  set :partial_template_engine, :erb
 
-	get '/' do
-		@results = AmazonApi.search(params["q"])
-		render :erb, :index
-	end
-
-	get '/api/amazon/search' do
-		content_type :json
-		AmazonApi.search(params["q"]).to_json
-	end
+  get '/' do
+      redirect '/jquery-version'
+  end
 end

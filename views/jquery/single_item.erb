@@ -1,0 +1,32 @@
+<tr data-asin="<%= result[:asin] %>">
+	<td style="text-align:center;vertical-align:middle;">
+		<button class="btn btn-link details" data-loading-text="Loading..." data-status="closed">Details</button>
+	</td>
+	<td style="text-align:center;vertical-align:middle;">
+		<img src="<%= result[:image] %>" height="100">
+	</td>
+	<td style="text-align:center;vertical-align:middle;">
+		<a href="<%= result[:link]%>">
+			<%= result[:title]%>
+		</a>
+	</td>
+	<td style="text-align:center;vertical-align:middle;">
+		<%= result[:asin]%>
+	</td>
+	<td style="text-align:center;vertical-align:middle;">
+		<% if result[:is_prime] %>
+			<span class="fui-check-circle"></span>
+		<% else %>
+			<span class="fui-cross-circle"></span>
+		<%end%>
+	</td>
+	<td style="text-align:center;vertical-align:middle;">
+		<label class="checkbox" style="margin-left:20px;">
+            <input type="checkbox" id="checkbox2" class="custom-checkbox">
+            	<span class="icons">
+            		<span class="icon-unchecked"></span>
+            		<span class="icon-checked"></span>
+            	</span>
+          </label>
+	</td>
+</tr>

@@ -1,0 +1,52 @@
+<html>
+<head>
+	<title>Knockout Demo</title>
+	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://rawgit.com/designmodo/Flat-UI/master/dist/css/flat-ui.min.css">
+	<link rel="stylesheet" href="css/styles.css"></head>
+ 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+ 	<script src="https://rawgit.com/designmodo/Flat-UI/master/dist/js/flat-ui.min.js"></script>
+ 	<script src="http://designmodo.github.io/Flat-UI/docs/assets/js/application.js"></script>
+	<script src="js/jquery-version/script.js"></script>
+<body>
+
+	<nav class="navbar navbar-inverse navbar-embossed" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">Knockout Demo</a>
+			</div>
+		</div>
+	</nav>
+
+	<div class="container">
+		<div class="row" style="margin-bottom:10px;">
+			<form>
+				<div class="col-md-5 col-md-offset-3">
+					<input id='search-textbox' type="text" class="form-control" placeholder="Search">
+				</div>
+				<div class="col-xs-2" style="margin-left:-25px;">
+					<button class="btn btn-inverse search" data-loading-text"Searching...">Search</button>
+				</div>
+			</form>
+		</div>
+		<div class="well" style="background-color:white;">
+			<table class="table table-bordered">
+				<tr>
+					<th></th>
+					<th style="text-align:center;">Image</th>
+					<th style="text-align:center;">Title</th>
+					<th style="text-align:center;">Asin</th>
+					<th style="text-align:center;">Prime</th>
+					<th style="text-align:center;">Favorite</th>
+				</tr>
+				<tr id="spinner-row" style="display:none;">
+					<td colspan="7" style="text-align:center;">
+						<img style="text-align:center;" src="img/ajax-loader.gif" />
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+</body>
+</html>

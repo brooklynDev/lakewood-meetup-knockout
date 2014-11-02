@@ -1,0 +1,3 @@
+<% @results.each_with_index do |result, index| %>
+	<%= partial(:"jquery/single_item", :locals => {result: result, index: index}) %>
+<% end %>
