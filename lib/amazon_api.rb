@@ -8,8 +8,8 @@ class AmazonApi
     end
 
     def get_details(asin)
-      parse_details Nokogiri::HTML(open("http://www.amazon.com/dp/#{asin}")), asin
-      # parse_details Nokogiri::HTML(IO.read('output.html')), asin
+      #parse_details Nokogiri::HTML(open("http://www.amazon.com/dp/#{asin}")), asin
+      parse_details Nokogiri::HTML(IO.read('output.html')), asin
     end
 
     private 
@@ -26,6 +26,7 @@ class AmazonApi
     end
 
     def parse_details(doc, asin)
+      #File.open('output.html', 'w'){|f| f.write(doc.inner_html)}
       result = {asin: asin}
       result[:rating] = ignore_error do
         /a-star-(\d)/.match(doc.css("#averageCustomerReviews .a-icon-star").attribute('class').value)[1]

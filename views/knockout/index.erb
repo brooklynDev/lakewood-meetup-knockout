@@ -4,10 +4,11 @@
 	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://rawgit.com/designmodo/Flat-UI/master/dist/css/flat-ui.min.css">
 	<link rel="stylesheet" href="css/styles.css"></head>
- 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
- 	<script src="https://rawgit.com/designmodo/Flat-UI/master/dist/js/flat-ui.min.js"></script>
- 	<script src="http://designmodo.github.io/Flat-UI/docs/assets/js/application.js"></script>
- 	<script src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.2.0/knockout-min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="https://rawgit.com/designmodo/Flat-UI/master/dist/js/flat-ui.min.js"></script>
+	<script src="http://designmodo.github.io/Flat-UI/docs/assets/js/application.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.2.0/knockout-min.js"></script>
+	<script src="https://rawgit.com/SteveSanderson/knockout.mapping/master/build/output/knockout.mapping-latest.js"></script>
 	<script src="js/knockout-version/script.js"></script>
 <body>
 
@@ -21,14 +22,12 @@
 
 	<div class="container">
 		<div class="row" style="margin-bottom:10px;">
-			<form>
-				<div class="col-md-5 col-md-offset-3">
-					<input id='search-textbox' type="text" class="form-control" placeholder="Search">
-				</div>
-				<div class="col-xs-2" style="margin-left:-25px;">
-					<button class="btn btn-inverse search" data-loading-text"Searching...">Search</button>
-				</div>
-			</form>
+			<div class="col-md-5 col-md-offset-3">
+				<input data-bind="value: searchTerm" type="text" class="form-control" placeholder="Search">
+			</div>
+			<div class="col-xs-2" style="margin-left:-25px;">
+				<button data-bind="click: searchClick" class="btn btn-inverse search" data-loading-text"Searching...">Search</button>
+			</div>
 		</div>
 		<div class="well" style="background-color:white;">
 			<table class="table table-bordered">
@@ -40,11 +39,63 @@
 					<th style="text-align:center;">Prime</th>
 					<th style="text-align:center;">Favorite</th>
 				</tr>
-				<tr id="spinner-row" style="display:none;">
+				<tr id="spinner-row" data-bind="visible: showSpinner">
 					<td colspan="7" style="text-align:center;">
 						<img style="text-align:center;" src="img/ajax-loader.gif" />
-					</td>
+					</td>	
 				</tr>
+					<!-- ko foreach: results -->
+						<tr>
+							<td style="text-align:center;vertical-align:middle;">
+								<button data-bind="click: $parent.showDetails, text: details.buttonText" class="btn btn-link details" data-loading-text="Loading..." data-status="closed"></button>
+							</td>
+							<td style="text-align:center;vertical-align:middle;">
+								<img data-bind="attr: {src: image}" height="100">
+							</td>
+							<td style="text-align:center;vertical-align:middle;">
+								<a data-bind="attr: {href: link, title: title}, text: title"></a>
+							</td>
+							<td style="text-align:center;vertical-align:middle;" data-bind="text: asin">
+							</td>
+							<td style="text-align:center;vertical-align:middle;">
+								<span data-bind="css: {'fui-check-circle': is_prime}"></span>
+								<span data-bind="css: {'fui-cross-circle': !is_prime}"></span>
+							</td>
+							<td style="text-align:center;vertical-align:middle;">
+								<label class="checkbox" style="margin-left:20px;">
+									<input type="checkbox" data-bind="checked: isFavorite" id="checkbox2" class="custom-checkbox">
+										<span class="icons">
+											<span class="icon-unchecked"></span>
+											<span class="icon-checked"></span>
+										</span>
+								  </label>
+							</td>
+						</tr>
+						<tr data-bind="visible: details.visible">
+							<td colspan="7">
+								<table class="table table-bordered">
+									<tr>
+										<th style="text-align:center;vertical-align:middle;">Rating</th>
+										<th style="text-align:center;vertical-align:middle;">Reviews</th>
+										<th style="text-align:center;vertical-align:middle;">Sold By</th>
+										<th style="text-align:center;vertical-align:middle;">Price</th>
+										<th style="width:25%;text-align:center;vertical-align:middle;">Description</th>
+									</tr>
+									<tr>
+										<td style="text-align:center;vertical-align:middle;" data-bind="text: details.rating"></td>
+										<td style="text-align:center;vertical-align:middle;" data-bind="text: details.reviews"></td>
+										<td style="text-align:center;vertical-align:middle;" data-bind="text: details.sold_by"></td>
+										<td style="text-align:center;vertical-align:middle;" data-bind="text: details.price"></td>
+										<td style="text-align:center;vertical-align:middle;">
+											<div style="height:200px;overflow:scroll;" data-bind="text: details.description">
+												
+											</div>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>						
+					<!-- /ko -->
 			</table>
 		</div>
 	</div>
@@ -52,17 +103,17 @@
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title" id="myModalLabel">Success</h4>
-      </div>
-      <div class="modal-body">
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
+	<div class="modal-content">
+	  <div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		<h4 class="modal-title" id="myModalLabel">Success</h4>
+	  </div>
+	  <div class="modal-body" data-bind="text: modalText">
+	  </div>
+	  <div class="modal-footer">
+		<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+	  </div>
+	</div>
   </div>
 </div>
 </body>
