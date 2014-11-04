@@ -6,10 +6,22 @@ This is the sample application I coded at the meetup. To get started, make sure 
     $ git clone git@github.com:brooklynDev/lakewood-meetup-knockout.git
 ```
 
-Then from the root of the application, just start the server:
+You'll then need to install the dependencies using `bundler`. If you don't have `bundler` on your machine, you can install it using the following:
 
 ```bash
-    rackup
+    $ gem install bundler
+```
+
+With `bundler` installed, from the root of the application install the dependencies:
+
+```bash
+    $ bundler
+```
+
+Finally, from the root of the application, just start the server:
+
+```bash
+    $ rackup
 ```
 
 You can now navigate to `http://localhost:9393/`. 
