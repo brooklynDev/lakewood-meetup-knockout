@@ -24,6 +24,6 @@ Finally, from the root of the application, just start the server:
     $ rackup
 ```
 
-You can now navigate to `http://localhost:9393/`. 
+You can now navigate to `http://localhost:9292/`. 
 
-There are two versions of the app, you can access the `jQuery` version at: `http://localhost:9393/jquery-version` and the `knockout.js` version at: `http://localhost:9393/knockout-version`.
+There are two versions of the app, you can access the `jQuery` version at: `http://localhost:9292/jquery-version` and the `knockout.js` version at: `http://localhost:9292/knockout-version`.
