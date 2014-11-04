@@ -11,7 +11,8 @@ class KnockoutDemoApp < Sinatra::Application
 
   post '/api/v1/favorites' do
       content_type :json
-      FavoritesDB.add(params[:asin])
+      request_body = JSON.parse(request.body.read)
+      FavoritesDB.add(request_body["asin"])
       {status: "OK"}.to_json
   end
 
@@ -23,6 +24,6 @@ class KnockoutDemoApp < Sinatra::Application
 
   get '/api/v1/favorites/:asin' do
     content_type :json
-    {exists: FavoritesDB.exists?(params[:asin])}
+    {exists: FavoritesDB.exists?(params[:asin])}.to_json
   end
 end
