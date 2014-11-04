@@ -8,8 +8,8 @@ class AmazonApi
     end
 
     def get_details(asin)
-      #parse_details Nokogiri::HTML(open("http://www.amazon.com/dp/#{asin}")), asin
-      parse_details Nokogiri::HTML(IO.read('output.html')), asin
+      parse_details Nokogiri::HTML(open("http://www.amazon.com/dp/#{asin}")), asin
+      #parse_details Nokogiri::HTML(IO.read('output.html')), asin
     end
 
     private 
