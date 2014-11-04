@@ -8,7 +8,7 @@ var Service = function(){
 	}
 
 	this.setFavorite = function(asin, value){
-		return value ? $.post('/api/v1/favorites', {asin: asin}) : $.ajax({url:'/api/v1/favorites/' + asin, type: 'DELETE'});
+		return value ? $.ajax({type: 'POST', url: '/api/v1/favorites', data: JSON.stringify({asin: asin}), dataType:'json'}) : $.ajax({url:'/api/v1/favorites/' + asin, type: 'DELETE'});
 	}
 }
 

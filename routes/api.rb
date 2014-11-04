@@ -12,6 +12,7 @@ class KnockoutDemoApp < Sinatra::Application
   post '/api/v1/favorites' do
       content_type :json
       request_body = JSON.parse(request.body.read)
+      p request_body
       FavoritesDB.add(request_body["asin"])
       {status: "OK"}.to_json
   end
