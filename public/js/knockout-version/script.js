@@ -18,40 +18,33 @@ var AmazonViewModel = function(service){
 	self.searchTerm = ko.observable();
 	self.results = ko.observableArray([]);
 	self.modalText = ko.observable();
+	self.hasSearched = ko.observable(false);
 
 	self.searchClick = function(viewModel, evt){
 		self.results([]);
+		self.hasSearched(true);
 		var $button = $(evt.target);
 		$button.button('loading');
 		self.service.search(self.searchTerm()).then(function(results){
-			results.forEach(function(result){
-				result.details = ko.mapping.fromJS(new DetailsViewModel());
-				result.isFavorite = ko.observable(result.is_favorite);
-				result.isFavorite.subscribe(function(newValue){
-					self.service.setFavorite(result.asin, newValue).then(function(){
-						self.showModal(newValue ? (result.asin + ' added to favorites.') : (result.asin + ' removed from favorites.'));
-					})
-				});
-			})
+			results.forEach(setResultObservableProperties);
 			self.results(results);
 			$button.button('reset');
 		});
 	}
 
 	self.showSpinner = ko.computed(function(){
-		return self.results() != null && self.results().length == 0;
+		return self.results().length == 0 && self.hasSearched();
 	}, self);
 
 	self.showDetails = function(result){
-		if(!result.details.detailsLoaded()){
+		if(!result.details){
 			self.service.showDetails(result.asin).then(function(details){
-				ko.mapping.fromJS(details, result.details);	
-				result.details.visible(true);			
-				result.details.detailsLoaded(true);
+				result.details = details;
+				result.showDetails(true);
 			});
 		}
 		else{
-			result.details.visible(!result.details.visible());
+			result.showDetails(!result.showDetails());
 		}
 	}
 
@@ -59,22 +52,19 @@ var AmazonViewModel = function(service){
 		self.modalText(text);
 		$("#myModal").modal();
 	}
-}
 
-
-var DetailsViewModel = function(){
-	var self = this;
-	self.asin = ko.observable();
-	self.rating = ko.observable();
-	self.reviews = ko.observable();
-	self.sold_by = ko.observable();
-	self.price = ko.observable();
-	self.description = ko.observable();
-	self.visible = ko.observable(false);
-	self.detailsLoaded = ko.observable(false);
-	self.buttonText = ko.computed(function(){
-		return self.visible() ? "Close" : "Details"
-	}, self);
+	function setResultObservableProperties(result){
+		result.showDetails = ko.observable(false);
+		result.buttonText = ko.computed(function(){
+			return result.showDetails() ? "Close" : "Details"
+		}, result);				
+		result.isFavorite = ko.observable(result.is_favorite);
+		result.isFavorite.subscribe(function(newValue){
+			self.service.setFavorite(result.asin, newValue).then(function(){
+				self.showModal(newValue ? (result.asin + ' added to favorites.') : (result.asin + ' removed from favorites.'));
+			})
+		});		
+	}
 }
 
 $(function(){
